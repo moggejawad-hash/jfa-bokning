@@ -1,0 +1,352 @@
+<title>JFA Bokningsstatus</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: header stats row + pass grid, side-by-side on desktop, stacked on mobile */
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #f0ede6;
+  --border: #e2ddd4;
+  --fg: #1a1a18;
+  --fg2: #5a5750;
+  --accent: #1B4D2E;
+  --gold: #C9A84C;
+  --open: #1B4D2E;
+  --open-bg: #e8f5ee;
+  --warn: #b45309;
+  --warn-bg: #fef3c7;
+  --full: #991b1b;
+  --full-bg: #fee2e2;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111210;
+    --surface: #1c1e1b;
+    --surface2: #242622;
+    --border: #2e302c;
+    --fg: #f0ede6;
+    --fg2: #8a8780;
+    --accent: #2d6b42;
+    --gold: #C9A84C;
+    --open: #4ade80;
+    --open-bg: #052e16;
+    --warn: #fbbf24;
+    --warn-bg: #1c1400;
+    --full: #f87171;
+    --full-bg: #1f0707;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111210;
+  --surface: #1c1e1b;
+  --surface2: #242622;
+  --border: #2e302c;
+  --fg: #f0ede6;
+  --fg2: #8a8780;
+  --accent: #2d6b42;
+  --gold: #C9A84C;
+  --open: #4ade80;
+  --open-bg: #052e16;
+  --warn: #fbbf24;
+  --warn-bg: #1c1400;
+  --full: #f87171;
+  --full-bg: #1f0707;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  padding: 0 16px;
+  padding-block: 24px;
+  min-height: 100%;
+}
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+}
+.brand h1 {
+  font-size: 15px; font-weight: 700;
+  color: var(--fg); letter-spacing: -.01em;
+}
+.brand p { font-size: 12px; color: var(--fg2); margin-top: 1px; }
+.sync-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--fg2);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 12px;
+}
+.sync-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #22c55e; flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+.sync-dot.loading { background: var(--gold); animation: none; }
+@keyframes pulse {
+  0%,100%{opacity:1} 50%{opacity:.4}
+}
+
+/* KPI tiles */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+@media (max-width: 600px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.kpi-val {
+  font-size: 28px; font-weight: 800;
+  color: var(--fg); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.kpi-val.gold { color: var(--gold); }
+.kpi-lbl { font-size: 11px; color: var(--fg2); margin-top: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; }
+
+/* Pass grid */
+.section-title {
+  font-size: 11px; font-weight: 700; color: var(--fg2);
+  text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: 10px;
+}
+.pass-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+.pass-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 100px 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+}
+@media (max-width: 500px) {
+  .pass-row { grid-template-columns: 1fr auto; }
+  .pass-tid { display: none; }
+  .pass-booked { grid-column: 1 / -1; }
+}
+.pass-dag { font-size: 14px; font-weight: 700; color: var(--fg); }
+.pass-tid { font-size: 12px; color: var(--fg2); }
+.pass-booked {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  min-width: 0;
+}
+.lag-chip {
+  font-size: 11px; font-weight: 600;
+  background: var(--accent); color: #fff;
+  border-radius: 6px; padding: 2px 8px;
+  white-space: nowrap;
+}
+.pass-badge {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  white-space: nowrap;
+}
+.open { background: var(--open-bg); color: var(--open); }
+.one  { background: var(--warn-bg); color: var(--warn); }
+.full { background: var(--full-bg); color: var(--full); }
+
+/* Revenue */
+.rev-box {
+  background: var(--accent);
+  border-radius: 14px;
+  padding: 20px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.rev-box h2 { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.7); }
+.rev-box .amount {
+  font-size: 32px; font-weight: 800; color: var(--gold);
+  font-variant-numeric: tabular-nums; line-height: 1;
+  margin-top: 4px;
+}
+.rev-box .sub { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 4px; }
+.rev-right { text-align: right; }
+.rev-right .label { font-size: 11px; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .06em; }
+.rev-right .val { font-size: 18px; font-weight: 700; color: #fff; margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+.empty-chip {
+  font-size: 11px; color: var(--fg2); font-style: italic;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--fg2);
+}
+</style>
+
+<div class="top-bar">
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <div>
+      <h1>JFA · Bokningsstatus</h1>
+      <p>Inomhustider Vintersäsongen 2026/27 · Skillsacademy Spånga</p>
+    </div>
+  </div>
+  <div class="sync-badge">
+    <div class="sync-dot loading" id="syncDot"></div>
+    <span id="syncText">Hämtar data…</span>
+  </div>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="kpi-val" id="kpiBooked">—</div>
+    <div class="kpi-lbl">Bokade platser</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-val" id="kpiLeft">—</div>
+    <div class="kpi-lbl">Lediga platser</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-val" id="kpiFull">—</div>
+    <div class="kpi-lbl">Fullbokade pass</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-val gold" id="kpiTeams">—</div>
+    <div class="kpi-lbl">Lag bokade</div>
+  </div>
+</div>
+
+<div class="section-title">Passöversikt</div>
+<div class="pass-list" id="passList">
+  <div style="padding:20px;text-align:center;color:var(--fg2);font-size:13px;">Laddar bokningar…</div>
+</div>
+
+<div class="rev-box" id="revBox" style="display:none">
+  <div>
+    <h2>Intäkt hittills</h2>
+    <div class="amount" id="revAmount">0 kr</div>
+    <div class="sub" id="revSub"></div>
+  </div>
+  <div class="rev-right">
+    <div class="label">Förväntad total</div>
+    <div class="val" id="revTotal">—</div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+
+<script>
+var WEBHOOK = "https://script.google.com/macros/s/AKfycbz82Ux5DnenQwJRXdeIL5FZCvjyccYIHkuRL8MJLOuRoSxaFdEkQf58p0oJMtwG-GgF/exec";
+
+var KR  = 2249/4;
+var KRF = 1699/3;
+var passes = [
+  {dag:"Måndag",  tid:"20:00–21:00",          id:"p1",  kr:Math.round(KR*2),  max:2},
+  {dag:"Tisdag",  tid:"19:30–21:00",          id:"p2",  kr:Math.round(KR*3),  max:2},
+  {dag:"Onsdag",  tid:"19:00–20:00",          id:"p3",  kr:Math.round(KR*2),  max:2},
+  {dag:"Fredag",  tid:"17:00–18:00",          id:"p4",  kr:Math.round(KR*2),  max:2},
+  {dag:"Fredag",  tid:"18:00–19:00 (2 ytor)", id:"p5",  kr:Math.round(KRF*2), max:1},
+  {dag:"Fredag",  tid:"18:00–19:00 (1 yta)",  id:"p6",  kr:Math.round(KRF),   max:1},
+  {dag:"Lördag",  tid:"11:00–12:00",          id:"p7",  kr:Math.round(KR*2),  max:2},
+  {dag:"Lördag",  tid:"12:00–13:00",          id:"p8",  kr:Math.round(KR*2),  max:2},
+  {dag:"Lördag",  tid:"13:00–14:00",          id:"p9",  kr:Math.round(KR*2),  max:2},
+  {dag:"Lördag",  tid:"14:00–15:00",          id:"p10", kr:Math.round(KR*2),  max:2}
+];
+
+function fmt(n){ return n.toLocaleString("sv-SE") + " kr"; }
+
+function render(data){
+  var list = document.getElementById("passList");
+  list.innerHTML = "";
+  var totalBooked=0, totalMax=0, fullCount=0, teamSet={};
+  var earnedKr=0, maxKr=0;
+
+  passes.forEach(function(p){
+    var booked = data[p.id] || [];
+    var count = booked.length;
+    var left = p.max - count;
+    totalBooked += count;
+    totalMax += p.max;
+    if(left===0) fullCount++;
+    booked.forEach(function(t){ teamSet[t]=1; });
+    earnedKr += count * p.kr;
+    maxKr += p.max * p.kr;
+
+    var row = document.createElement("div");
+    row.className = "pass-row";
+
+    var dagEl = document.createElement("div");
+    dagEl.innerHTML = '<div class="pass-dag">'+p.dag+'</div><div class="pass-tid">'+p.tid+'</div>';
+
+    var bookedEl = document.createElement("div");
+    bookedEl.className = "pass-booked";
+    if(booked.length===0){
+      bookedEl.innerHTML = '<span class="empty-chip">Inga bokningar</span>';
+    } else {
+      booked.forEach(function(t){
+        var c=document.createElement("span");
+        c.className="lag-chip"; c.textContent=t;
+        bookedEl.appendChild(c);
+      });
+    }
+
+    var badge = document.createElement("span");
+    badge.className = "pass-badge";
+    if(left===0){ badge.classList.add("full"); badge.textContent="Fullbokat"; }
+    else if(left===1){ badge.classList.add("one"); badge.textContent="1 plats kvar"; }
+    else { badge.classList.add("open"); badge.textContent=left+" platser lediga"; }
+
+    row.appendChild(dagEl);
+    row.appendChild(bookedEl);
+    row.appendChild(badge);
+    list.appendChild(row);
+  });
+
+  document.getElementById("kpiBooked").textContent = totalBooked;
+  document.getElementById("kpiLeft").textContent = totalMax - totalBooked;
+  document.getElementById("kpiFull").textContent = fullCount;
+  document.getElementById("kpiTeams").textContent = Object.keys(teamSet).length;
+
+  var revBox = document.getElementById("revBox");
+  revBox.style.display="flex";
+  document.getElementById("revAmount").textContent = fmt(earnedKr);
+  document.getElementById("revSub").textContent = totalBooked + " av " + totalMax + " platser bokade";
+  document.getElementById("revTotal").textContent = fmt(maxKr);
+}
+
+function load(){
+  var dot = document.getElementById("syncDot");
+  var txt = document.getElementById("syncText");
+  dot.className = "sync-dot loading";
+  txt.textContent = "Uppdaterar…";
+  fetch(WEBHOOK+"?action=getBookings")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      render(d||{});
+      dot.className = "sync-dot";
+      var t = new Date().toLocaleTimeString("sv-SE",{hour:"2-digit",minute:"2-digit"});
+      txt.textContent = "Live · uppdaterad "+t;
+      document.getElementById("footer").textContent = "Uppdateras automatiskt var 30:e sekund · Deadline bokningar: 15 oktober";
+    })
+    .catch(function(){
+      dot.className = "sync-dot loading";
+      txt.textContent = "Kunde ej nå servern";
+    });
+}
+
+load();
+setInterval(load, 30000);
+</script>
