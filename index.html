@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JFA – Bokningsformulär Inomhustider 2026/27</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:720px;margin:0 auto;min-height:100vh;
+  background:linear-gradient(145deg,#1a3a25 0%,#2d5a3a 40%,#1e3d4f 100%);}
+
+/* HEADER */
+header{background:rgba(255,255,255,.04);backdrop-filter:blur(8px);
+  border-bottom:2px solid rgba(201,168,76,.4);padding:22px 20px 26px;}
+.logos{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.logo-div{width:1px;height:38px;background:rgba(255,255,255,.2);}
+.logo-txt{color:rgba(255,255,255,.7);font-size:13px;}
+.logo-txt strong{display:block;color:#fff;}
+header h1{color:#fff;font-size:clamp(17px,4vw,24px);font-weight:700;margin-bottom:5px;}
+header p{color:rgba(255,255,255,.6);font-size:13px;}
+.facts{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap;}
+.fact-v{font-size:22px;font-weight:700;color:#C9A84C;line-height:1;}
+.fact-l{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
+
+/* MAIN */
+main{padding:20px;}
+.card{background:rgba(255,255,255,.92);backdrop-filter:blur(4px);
+  border-radius:14px;padding:16px;margin-bottom:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.card-title{font-size:11px;font-weight:700;color:#888;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px;}
+
+/* INFO BOX */
+.info-box{background:rgba(255,255,255,.08);border-left:3px solid #C9A84C;
+  border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:14px;
+  font-size:13px;line-height:1.8;color:rgba(255,255,255,.85);}
+.info-box strong{color:#C9A84C;}
+.info-box .dates span{display:block;}
+.info-box .dates span::before{content:"· ";color:#C9A84C;font-weight:bold;}
+
+/* INSTR BOX */
+.instr{background:rgba(255,255,255,.07);border-radius:10px;padding:14px 16px;
+  margin-bottom:14px;font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;}
+.instr strong{color:#C9A84C;}
+
+/* LAGS */
+.lag-row{display:flex;flex-wrap:wrap;gap:7px;}
+.lag-btn{padding:7px 13px;border:1.5px solid #ddd;border-radius:20px;
+  background:#fff;cursor:pointer;font-size:13px;font-weight:600;
+  color:#1B4D2E;transition:all .15s;}
+.lag-btn:hover{border-color:#C9A84C;color:#C9A84C;}
+.lag-btn.active{background:#1B4D2E;border-color:#1B4D2E;color:#C9A84C;}
+
+/* PASSES */
+.pass{background:rgba(255,255,255,.92);border-radius:12px;padding:14px 16px;
+  margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.pass:hover{border-color:#C9A84C;transform:translateY(-1px);}
+.pass.sel{border-color:#1B4D2E;background:#E8F5EE;}
+.pass-dag{font-size:16px;font-weight:700;color:#1B4D2E;}
+.pass-tid{font-size:14px;color:#555;margin:2px 0;}
+.pass-meta{font-size:11px;color:#999;}
+.pass-status{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;}
+.status-open{background:#E8F5EE;color:#1B4D2E;}
+.status-one{background:#FFF3E0;color:#E65100;}
+.status-full{background:#FFEBEE;color:#C62828;}
+.pass-right{text-align:right;min-width:110px;}
+.pass-kr{font-size:18px;font-weight:700;color:#1B4D2E;}
+.pass-kr-sub{font-size:11px;color:#999;margin-top:2px;}
+.check-circle{width:28px;height:28px;border-radius:50%;border:2px solid #ddd;
+  display:flex;align-items:center;justify-content:center;margin:8px 0 0 auto;
+  font-size:14px;font-weight:700;color:#1B4D2E;background:#fff;}
+.pass.sel .check-circle{background:#1B4D2E;border-color:#1B4D2E;color:#C9A84C;}
+
+/* SUM */
+.sum-row{display:flex;justify-content:space-between;padding:5px 0;
+  border-bottom:1px solid #eee;font-size:13px;}
+.sum-footer{margin-top:8px;}
+.sum-tot{display:flex;justify-content:space-between;font-weight:700;font-size:15px;padding:6px 0;}
+.sum-sp{font-size:12px;color:#999;text-align:right;}
+.commit{background:#FFF8E1;border-radius:8px;padding:10px 12px;
+  font-size:12px;color:#555;margin-bottom:8px;line-height:1.6;}
+.commit strong{color:#1B4D2E;}
+
+/* FORM */
+label{display:block;font-size:12px;font-weight:700;color:#666;margin:12px 0 4px;}
+input[type=text],input[type=email]{width:100%;padding:10px 12px;
+  border:1.5px solid #ddd;border-radius:8px;font-size:14px;}
+input:focus{outline:none;border-color:#C9A84C;}
+.btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#C9A84C,#a07830);
+  color:#1B4D2E;border:none;border-radius:10px;font-size:15px;font-weight:700;
+  cursor:pointer;margin-top:14px;box-shadow:0 4px 12px rgba(201,168,76,.3);}
+.btn:disabled{background:#ddd;color:#aaa;cursor:default;box-shadow:none;}
+.note{font-size:12px;color:#aaa;text-align:center;margin-top:6px;}
+.success{background:#E8F5EE;border:2px solid #1B4D2E;border-radius:10px;
+  padding:16px;text-align:center;margin-bottom:14px;display:none;color:#1B4D2E;}
+.success.show{display:block;}
+footer{text-align:center;padding:20px;font-size:12px;color:rgba(255,255,255,.35);}
+footer span{color:#C9A84C;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logos">
+    <div class="logo-txt"><strong>Järfälla Football Academy</strong><span>Skillsacademy Spånga</span></div>
+  </div>
+  <h1>Inomhustider Vintersäsongen 2026/27</h1>
+  <p>JFA har förhandlat fram tider centralt. Boka ert lags pass — första till kvarn gäller.</p>
+  <div class="facts">
+    <div><div class="fact-v">16 v</div><div class="fact-l">Lagtider</div></div>
+    <div><div class="fact-v">16 nov</div><div class="fact-l">Uppstart lag</div></div>
+    <div><div class="fact-v">9</div><div class="fact-l">Pass/vecka</div></div>
+    <div><div class="fact-v">28 mar</div><div class="fact-l">Sista träning</div></div>
+  </div>
+</header>
+
+<main>
+
+<div class="info-box">
+  <strong>Period &amp; åtagande</strong> — Bokning innebär att laget förbinder sig för hela perioden. Det går inte att avboka enskilda veckor.
+  <div class="dates" style="margin-top:8px;">
+    <span>16 nov 2026 — Första lagträningstillfället</span>
+    <span>21 dec – 3 jan — Juluppehåll (ingen träning)</span>
+    <span>4 jan 2027 — Återstart efter jul</span>
+    <span>1–7 mars 2027 — Sportlov v.9 (ingen träning)</span>
+    <span>28 mars 2027 — Sista träningstillfället</span>
+  </div>
+</div>
+
+<div class="instr">
+  <strong>Så här fungerar det:</strong> Varje pass har <strong>4 ytor totalt</strong> och delas av <strong>2 lag</strong> — varje lag får <strong>2 ytor</strong> (ca 20 spelare, 10 per yta). Priset som visas är <strong>er andel</strong>. JFA betalar hela passet till Skills Academy och reglerar sedan mot lagkassan.<br><br>
+  <strong>Fredag 18–19</strong> är undantag med 3 ytor: 2 ytor till ett lag och 1 yta till ett yngre lag. En yta rymmer ca <strong>10 spelare</strong>. Deadline: <strong>15 oktober</strong>.
+</div>
+
+<div class="card">
+  <div class="card-title" style="color:#1B4D2E;">Välj ert lag</div>
+  <div class="lag-row" id="lagRow"></div>
+</div>
+
+<div class="card-title" style="color:#C9A84C;padding:0 4px 8px;font-size:13px;letter-spacing:.07em;">VÄLJ PASS</div>
+<div id="passGrid"></div>
+
+<div id="sumBox" class="card" style="display:none;">
+  <div class="card-title">Kostnad</div>
+  <div id="sumRows"></div>
+</div>
+
+<div class="success" id="successBox">
+  <strong>✅ Bokningen mottagen!</strong><br>
+  Bekräftelsemejl har skickats till din e-postadress och till info@jarfallafa.se. Kolla din inkorg!
+</div>
+
+<div id="formArea" style="display:none;">
+  <div class="card">
+    <div class="commit"><strong>Åtagande:</strong> Bokning innebär att laget förbinder sig för hela perioden 16 nov 2026 – 28 mars 2027. Kostnaden regleras via lagkassan i dialog med kassör <strong>Felipe Toro</strong>.</div>
+    <label>Lagledare (namn)</label>
+    <input type="text" id="fNamn" placeholder="Ditt namn">
+    <label>Din e-postadress</label>
+    <input type="email" id="fEmail" placeholder="din@email.se">
+    <button class="btn" id="bokaBtnEl">Boka pass</button>
+    <p class="note">Bokningen sparas direkt och ett bekräftelsemejl skickas till info@jarfallafa.se</p>
+  </div>
+</div>
+<button class="btn" id="disabledBtn" disabled style="opacity:.4;margin-bottom:20px;">Välj lag och pass för att boka</button>
+
+</main>
+
+<footer>Järfälla Football Academy &nbsp;·&nbsp; <span>Skillsacademy Spånga</span> &nbsp;·&nbsp; Frågor &amp; betalning: Felipe Toro (kassör)</footer>
+
+<script>
+var VECKOR = 16;
+var KR = 2249/4;
+var KRF = 1699/3;
+
+var passes = [
+  {dag:"Måndag",  tid:"20:00–21:00",          id:"p1",  kr:Math.round(KR*2),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare"},
+  {dag:"Tisdag",  tid:"19:30–21:00",          id:"p2",  kr:Math.round(KR*3),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare (1,5h)"},
+  {dag:"Onsdag",  tid:"19:00–20:00",          id:"p3",  kr:Math.round(KR*2),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare"},
+  {dag:"Fredag",  tid:"17:00–18:00",          id:"p4",  kr:Math.round(KR*2),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare"},
+  {dag:"Fredag",  tid:"18:00–19:00 (2 ytor)", id:"p5",  kr:Math.round(KRF*2), max:1, meta:"3 ytor · 2 ytor/lag · ca 20 spelare"},
+  {dag:"Fredag",  tid:"18:00–19:00 (1 yta)",  id:"p6",  kr:Math.round(KRF),   max:1, meta:"1 yta · ca 10 spelare · yngre lag"},
+  {dag:"Lördag",  tid:"11:00–12:00",          id:"p7",  kr:Math.round(KR*2),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare"},
+  {dag:"Lördag",  tid:"12:00–13:00",          id:"p8",  kr:Math.round(KR*2),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare"},
+  {dag:"Lördag",  tid:"13:00–14:00",          id:"p9",  kr:Math.round(KR*2),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare"},
+  {dag:"Lördag",  tid:"14:00–15:00",          id:"p10", kr:Math.round(KR*2),  max:2, meta:"4 ytor · 2 ytor/lag · ca 20 spelare"}
+];
+
+var lags = ["P2019","P2018","P2017","P2016","P2015A","P2015U","P2014","P2013A","P2013U","P2012","P2011","P2010","F2012","F2013","F2014","F2015","F2016"];
+
+var activeLag = "";
+var selected = {};
+
+// bookings: {passId: [lagname, ...]} — loaded from localStorage for display only
+// Google Sheets is the authoritative record
+var bookings = {};
+try {
+  var stored = localStorage.getItem("jfa_bookings_2627");
+  if(stored) bookings = JSON.parse(stored);
+} catch(e) {}
+
+function saveBookings() {
+  try { localStorage.setItem("jfa_bookings_2627", JSON.stringify(bookings)); } catch(e) {}
+}
+
+var WEBHOOK = "https://script.google.com/macros/s/AKfycbzDuDbmg0jNew5NTVc62t7VjBYeyKYx4MaXlN07KP2xc9CouVZZQnSIiadJrgE3QU1l/exec";
+
+function fkr(n){ return n.toLocaleString("sv-SE")+" kr"; }
+function getBooked(pid){ return (bookings[pid]||[]).length; }
+function isFull(p){ return getBooked(p.id) >= p.max; }
+function isBookedByMe(p){ return (bookings[p.id]||[]).indexOf(activeLag) >= 0; }
+
+function statusBadge(p){
+  if(isBookedByMe(p)) return '<span class="pass-status status-open">✓ Ni har bokat</span>';
+  if(isFull(p))       return '<span class="pass-status status-full">Fullbokat</span>';
+  var left = p.max - getBooked(p.id);
+  if(left === 1 && p.max === 2) return '<span class="pass-status status-one">1 plats kvar</span>';
+  return '<span class="pass-status status-open">'+p.max+' platser lediga</span>';
+}
+
+function renderLags(){
+  document.getElementById("lagRow").innerHTML = lags.map(function(l){
+    return '<button class="lag-btn'+(l===activeLag?" active":"")+'" data-lag="'+l+'">'+l+'</button>';
+  }).join("");
+}
+
+function renderPasses(){
+  document.getElementById("passGrid").innerHTML = passes.map(function(p){
+    var sel = selected[p.id];
+    var booked = isBookedByMe(p);
+    var full = isFull(p) && !booked;
+    var style = full ? " style='opacity:.55;cursor:not-allowed;'" : "";
+    return '<div class="pass'+(sel?" sel":"")+'"'+style+' data-pid="'+p.id+'">'
+      +'<div class="pass-left">'
+      +'<div class="pass-dag">'+p.dag+'</div>'
+      +'<div class="pass-tid">'+p.tid+'</div>'
+      +'<div class="pass-meta">'+p.meta+'</div>'
+      +statusBadge(p)
+      +'</div>'
+      +'<div class="pass-right">'
+      +'<div class="pass-kr">'+fkr(p.kr*VECKOR)+'</div>'
+      +'<div class="pass-kr-sub">'+VECKOR+' v · '+fkr(p.kr)+'/v</div>'
+      +'<div class="check-circle">'+(sel?'✓':'')+'</div>'
+      +'</div>'
+      +'</div>';
+  }).join("");
+}
+
+function renderSum(){
+  var box = document.getElementById("sumBox");
+  var rows = document.getElementById("sumRows");
+  var fa   = document.getElementById("formArea");
+  var db   = document.getElementById("disabledBtn");
+  var arr  = passes.filter(function(p){ return selected[p.id]; });
+  if(!arr.length){
+    box.style.display = "none";
+    fa.style.display  = "none";
+    db.style.display  = "block";
+    return;
+  }
+  var tot = arr.reduce(function(s,p){ return s+p.kr; },0)*VECKOR;
+  rows.innerHTML = arr.map(function(p){
+    return '<div class="sum-row"><span>'+p.dag+' '+p.tid+'</span><span>'+fkr(p.kr*VECKOR)+'</span></div>';
+  }).join("")
+  +'<div class="sum-footer">'
+  +'<div class="sum-tot"><span>Totalt '+VECKOR+' veckor</span><span>'+fkr(tot)+'</span></div>'
+  +'<div class="sum-sp">≈ '+fkr(Math.round(tot/15))+' per spelare · snitt 15 spelare/lag</div>'
+  +'</div>';
+  box.style.display = "block";
+  fa.style.display  = "block";
+  db.style.display  = "none";
+  document.getElementById("bokaBtnEl").textContent = "Boka "+arr.length+" pass för "+activeLag;
+}
+
+document.getElementById("lagRow").addEventListener("click", function(e){
+  var b = e.target.closest("[data-lag]");
+  if(b){ activeLag = b.getAttribute("data-lag"); selected = {}; renderLags(); renderPasses(); renderSum(); }
+});
+
+document.getElementById("passGrid").addEventListener("click", function(e){
+  var c = e.target.closest("[data-pid]");
+  if(!c) return;
+  if(!activeLag){ alert("Välj ert lag först"); return; }
+  var p = passes.find(function(x){ return x.id===c.getAttribute("data-pid"); });
+  if(!p) return;
+  if(isFull(p) && !isBookedByMe(p)) return;
+  selected[p.id] = !selected[p.id];
+  renderPasses(); renderSum();
+});
+
+document.getElementById("bokaBtnEl").addEventListener("click", function(){
+  var namn  = (document.getElementById("fNamn").value||"").trim();
+  var email = (document.getElementById("fEmail").value||"").trim();
+  if(!namn){ alert("Ange ditt namn"); return; }
+  if(!email || email.indexOf("@")<0){ alert("Ange en giltig e-postadress"); return; }
+
+  var arr = passes.filter(function(p){ return selected[p.id]; });
+
+  // Update local bookings state and save to localStorage
+  arr.forEach(function(p){
+    if(!bookings[p.id]) bookings[p.id] = [];
+    if(bookings[p.id].indexOf(activeLag) < 0) bookings[p.id].push(activeLag);
+  });
+  saveBookings();
+
+  // Send each pass to Google Sheets + trigger confirmation email via Apps Script
+  arr.forEach(function(p){
+    var params = new URLSearchParams({
+      lag: activeLag,
+      passId: p.id,
+      dag: p.dag,
+      tid: p.tid,
+      kr: p.kr * VECKOR,
+      namn: namn,
+      email: email
+    });
+    fetch(WEBHOOK + "?" + params.toString(), {mode:"no-cors"})
+      .catch(function(err){ console.log("Webhook error", err); });
+  });
+
+  document.getElementById("successBox").className = "success show";
+  selected = {};
+  renderPasses();
+  renderSum();
+});
+
+renderLags();
+renderPasses();
+</script>
+</body>
+</html>
