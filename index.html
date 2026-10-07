@@ -8,49 +8,34 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',Arial,sans-serif;max-width:720px;margin:0 auto;min-height:100vh;
   background:linear-gradient(145deg,#1a3a25 0%,#2d5a3a 40%,#1e3d4f 100%);}
-
-/* HEADER */
 header{background:rgba(255,255,255,.04);backdrop-filter:blur(8px);
   border-bottom:2px solid rgba(201,168,76,.4);padding:22px 20px 26px;}
-.logos{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
-.logo-div{width:1px;height:38px;background:rgba(255,255,255,.2);}
 .logo-txt{color:rgba(255,255,255,.7);font-size:13px;}
-.logo-txt strong{display:block;color:#fff;}
-header h1{color:#fff;font-size:clamp(17px,4vw,24px);font-weight:700;margin-bottom:5px;}
+.logo-txt strong{display:block;color:#fff;font-size:16px;margin-bottom:2px;}
+header h1{color:#fff;font-size:clamp(17px,4vw,24px);font-weight:700;margin:14px 0 5px;}
 header p{color:rgba(255,255,255,.6);font-size:13px;}
 .facts{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap;}
 .fact-v{font-size:22px;font-weight:700;color:#C9A84C;line-height:1;}
 .fact-l{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
-
-/* MAIN */
 main{padding:20px;}
-.card{background:rgba(255,255,255,.92);backdrop-filter:blur(4px);
-  border-radius:14px;padding:16px;margin-bottom:14px;
+.card{background:rgba(255,255,255,.92);border-radius:14px;padding:16px;margin-bottom:14px;
   box-shadow:0 4px 20px rgba(0,0,0,.15);}
 .card-title{font-size:11px;font-weight:700;color:#888;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px;}
-
-/* INFO BOX */
 .info-box{background:rgba(255,255,255,.08);border-left:3px solid #C9A84C;
   border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:14px;
   font-size:13px;line-height:1.8;color:rgba(255,255,255,.85);}
 .info-box strong{color:#C9A84C;}
 .info-box .dates span{display:block;}
 .info-box .dates span::before{content:"· ";color:#C9A84C;font-weight:bold;}
-
-/* INSTR BOX */
 .instr{background:rgba(255,255,255,.07);border-radius:10px;padding:14px 16px;
   margin-bottom:14px;font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;}
 .instr strong{color:#C9A84C;}
-
-/* LAGS */
 .lag-row{display:flex;flex-wrap:wrap;gap:7px;}
 .lag-btn{padding:7px 13px;border:1.5px solid #ddd;border-radius:20px;
   background:#fff;cursor:pointer;font-size:13px;font-weight:600;
   color:#1B4D2E;transition:all .15s;}
 .lag-btn:hover{border-color:#C9A84C;color:#C9A84C;}
 .lag-btn.active{background:#1B4D2E;border-color:#1B4D2E;color:#C9A84C;}
-
-/* PASSES */
 .pass{background:rgba(255,255,255,.92);border-radius:12px;padding:14px 16px;
   margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;
   cursor:pointer;border:2px solid transparent;transition:all .15s;}
@@ -70,8 +55,6 @@ main{padding:20px;}
   display:flex;align-items:center;justify-content:center;margin:8px 0 0 auto;
   font-size:14px;font-weight:700;color:#1B4D2E;background:#fff;}
 .pass.sel .check-circle{background:#1B4D2E;border-color:#1B4D2E;color:#C9A84C;}
-
-/* SUM */
 .sum-row{display:flex;justify-content:space-between;padding:5px 0;
   border-bottom:1px solid #eee;font-size:13px;}
 .sum-footer{margin-top:8px;}
@@ -80,8 +63,6 @@ main{padding:20px;}
 .commit{background:#FFF8E1;border-radius:8px;padding:10px 12px;
   font-size:12px;color:#555;margin-bottom:8px;line-height:1.6;}
 .commit strong{color:#1B4D2E;}
-
-/* FORM */
 label{display:block;font-size:12px;font-weight:700;color:#666;margin:12px 0 4px;}
 input[type=text],input[type=email]{width:100%;padding:10px 12px;
   border:1.5px solid #ddd;border-radius:8px;font-size:14px;}
@@ -94,6 +75,12 @@ input:focus{outline:none;border-color:#C9A84C;}
 .success{background:#E8F5EE;border:2px solid #1B4D2E;border-radius:10px;
   padding:16px;text-align:center;margin-bottom:14px;display:none;color:#1B4D2E;}
 .success.show{display:block;}
+.loading-bar{text-align:center;padding:12px;color:rgba(255,255,255,.5);font-size:13px;}
+.sync-badge{font-size:11px;color:rgba(255,255,255,.4);text-align:right;
+  padding:0 4px 6px;display:flex;align-items:center;justify-content:flex-end;gap:5px;}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:#4CAF50;display:inline-block;}
+.sync-dot.loading{background:#C9A84C;animation:pulse .8s infinite alternate;}
+@keyframes pulse{to{opacity:.3;}}
 footer{text-align:center;padding:20px;font-size:12px;color:rgba(255,255,255,.35);}
 footer span{color:#C9A84C;}
 </style>
@@ -101,9 +88,7 @@ footer span{color:#C9A84C;}
 <body>
 
 <header>
-  <div class="logos">
-    <div class="logo-txt"><strong>Järfälla Football Academy</strong><span>Skillsacademy Spånga</span></div>
-  </div>
+  <div class="logo-txt"><strong>Järfälla Football Academy</strong>Skillsacademy Spånga</div>
   <h1>Inomhustider Vintersäsongen 2026/27</h1>
   <p>JFA har förhandlat fram tider centralt. Boka ert lags pass — första till kvarn gäller.</p>
   <div class="facts">
@@ -137,6 +122,13 @@ footer span{color:#C9A84C;}
   <div class="lag-row" id="lagRow"></div>
 </div>
 
+<div class="sync-badge">
+  <span class="sync-dot loading" id="syncDot"></span>
+  <span id="syncTxt">Hämtar bokningsstatus…</span>
+</div>
+
+<div id="loadingBar" class="loading-bar">Laddar bokningsstatus från server…</div>
+
 <div class="card-title" style="color:#C9A84C;padding:0 4px 8px;font-size:13px;letter-spacing:.07em;">VÄLJ PASS</div>
 <div id="passGrid"></div>
 
@@ -169,7 +161,7 @@ footer span{color:#C9A84C;}
 
 <script>
 var VECKOR = 16;
-var KR = 2249/4;
+var KR  = 2249/4;
 var KRF = 1699/3;
 
 var passes = [
@@ -187,22 +179,12 @@ var passes = [
 
 var lags = ["P2019","P2018","P2017","P2016","P2015A","P2015U","P2014","P2013A","P2013U","P2012","P2011","P2010","F2012","F2013","F2014","F2015","F2016"];
 
+var WEBHOOK = "https://script.google.com/macros/s/AKfycbz82Ux5DnenQwJRXdeIL5FZCvjyccYIHkuRL8MJLOuRoSxaFdEkQf58p0oJMtwG-GgF/exec";
+
 var activeLag = "";
-var selected = {};
-
-// bookings: {passId: [lagname, ...]} — loaded from localStorage for display only
-// Google Sheets is the authoritative record
-var bookings = {};
-try {
-  var stored = localStorage.getItem("jfa_bookings_2627");
-  if(stored) bookings = JSON.parse(stored);
-} catch(e) {}
-
-function saveBookings() {
-  try { localStorage.setItem("jfa_bookings_2627", JSON.stringify(bookings)); } catch(e) {}
-}
-
-var WEBHOOK = "https://script.google.com/macros/s/AKfycbzDuDbmg0jNew5NTVc62t7VjBYeyKYx4MaXlN07KP2xc9CouVZZQnSIiadJrgE3QU1l/exec";
+var selected  = {};
+var bookings  = {}; // laddas från server
+var dataLoaded = false;
 
 function fkr(n){ return n.toLocaleString("sv-SE")+" kr"; }
 function getBooked(pid){ return (bookings[pid]||[]).length; }
@@ -210,11 +192,49 @@ function isFull(p){ return getBooked(p.id) >= p.max; }
 function isBookedByMe(p){ return (bookings[p.id]||[]).indexOf(activeLag) >= 0; }
 
 function statusBadge(p){
+  if(!dataLoaded) return '<span class="pass-status" style="background:#f5f5f5;color:#bbb;">Laddar…</span>';
   if(isBookedByMe(p)) return '<span class="pass-status status-open">✓ Ni har bokat</span>';
   if(isFull(p))       return '<span class="pass-status status-full">Fullbokat</span>';
   var left = p.max - getBooked(p.id);
   if(left === 1 && p.max === 2) return '<span class="pass-status status-one">1 plats kvar</span>';
   return '<span class="pass-status status-open">'+p.max+' platser lediga</span>';
+}
+
+function setSyncStatus(ok, txt){
+  var dot = document.getElementById("syncDot");
+  var lbl = document.getElementById("syncTxt");
+  dot.className = "sync-dot" + (ok ? "" : " loading");
+  dot.style.background = ok ? "#4CAF50" : "#C9A84C";
+  lbl.textContent = txt;
+}
+
+// Hämta bokningsstatus från Google Sheets via Apps Script
+function loadBookings(cb){
+  fetch(WEBHOOK + "?action=getBookings", {mode:"no-cors"})
+    .then(function(){
+      // no-cors ger opaque response — kan ej läsa body
+      // Fallback: försök med vanlig fetch (fungerar om CORS tillåts)
+    })
+    .catch(function(){});
+
+  // Eftersom Apps Script returnerar JSON och tillåter cross-origin GET,
+  // använd vanlig fetch utan no-cors för getBookings
+  fetch(WEBHOOK + "?action=getBookings")
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      bookings = data || {};
+      dataLoaded = true;
+      document.getElementById("loadingBar").style.display = "none";
+      setSyncStatus(true, "Uppdaterad live · " + new Date().toLocaleTimeString("sv-SE",{hour:"2-digit",minute:"2-digit"}));
+      if(cb) cb();
+    })
+    .catch(function(){
+      // Om fetch misslyckas — visa ändå formuläret utan status
+      dataLoaded = true;
+      document.getElementById("loadingBar").style.display = "none";
+      setSyncStatus(false, "Kunde ej hämta status — fortsätt ändå");
+      if(cb) cb();
+    });
 }
 
 function renderLags(){
@@ -225,10 +245,10 @@ function renderLags(){
 
 function renderPasses(){
   document.getElementById("passGrid").innerHTML = passes.map(function(p){
-    var sel = selected[p.id];
+    var sel    = selected[p.id];
     var booked = isBookedByMe(p);
-    var full = isFull(p) && !booked;
-    var style = full ? " style='opacity:.55;cursor:not-allowed;'" : "";
+    var full   = isFull(p) && !booked;
+    var style  = full ? " style='opacity:.55;cursor:not-allowed;'" : "";
     return '<div class="pass'+(sel?" sel":"")+'"'+style+' data-pid="'+p.id+'">'
       +'<div class="pass-left">'
       +'<div class="pass-dag">'+p.dag+'</div>'
@@ -295,23 +315,17 @@ document.getElementById("bokaBtnEl").addEventListener("click", function(){
 
   var arr = passes.filter(function(p){ return selected[p.id]; });
 
-  // Update local bookings state and save to localStorage
+  // Optimistisk uppdatering lokalt
   arr.forEach(function(p){
     if(!bookings[p.id]) bookings[p.id] = [];
     if(bookings[p.id].indexOf(activeLag) < 0) bookings[p.id].push(activeLag);
   });
-  saveBookings();
 
-  // Send each pass to Google Sheets + trigger confirmation email via Apps Script
+  // Skicka till Google Sheets + mejl
   arr.forEach(function(p){
     var params = new URLSearchParams({
-      lag: activeLag,
-      passId: p.id,
-      dag: p.dag,
-      tid: p.tid,
-      kr: p.kr * VECKOR,
-      namn: namn,
-      email: email
+      lag: activeLag, passId: p.id, dag: p.dag, tid: p.tid,
+      kr: p.kr * VECKOR, namn: namn, email: email
     });
     fetch(WEBHOOK + "?" + params.toString(), {mode:"no-cors"})
       .catch(function(err){ console.log("Webhook error", err); });
@@ -321,10 +335,20 @@ document.getElementById("bokaBtnEl").addEventListener("click", function(){
   selected = {};
   renderPasses();
   renderSum();
+  setSyncStatus(false, "Uppdaterar…");
+
+  // Hämta färsk status från server efter 3 sek
+  setTimeout(function(){
+    loadBookings(function(){ renderPasses(); });
+  }, 3000);
 });
 
+// Start: rendera lag, ladda bokningsstatus, rendera pass
 renderLags();
-renderPasses();
+loadBookings(function(){
+  renderPasses();
+  renderSum();
+});
 </script>
 </body>
 </html>
